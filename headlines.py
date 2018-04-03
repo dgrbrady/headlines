@@ -18,11 +18,8 @@ def get_home():
 def get_news(publication):
     feed = feedparser.parse(NYT_FEEDS[publication])
     first_article = feed['entries'][0]
-    first_article.title = first_article.get("title")
-    first_article.published = first_article.get("published")
-    first_article.summary = first_article.get("summary")
 
-    return render_template("newsPage.html", title=first_article.title, published=first_article.published, summary=first_article.summary)
+    return render_template("newsPage.html", title=first_article.get("title"), published=first_article.get("published"), summary=first_article.get("summary"))
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)

@@ -14,18 +14,6 @@ NYT_FEEDS = {
 def get_home():
     return render_template("home.html")
 
-"""@app.route("/space")
-def space():
-    return get_news('space')
-
-@app.route("/tech")
-def tech():
-    return get_news('tech')
-
-@app.route("/travel")
-def travel():
-    return get_news('travel')"""
-
 @app.route("/<publication>")
 def get_news(publication):
     feed = feedparser.parse(NYT_FEEDS[publication])

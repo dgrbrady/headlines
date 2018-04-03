@@ -1,8 +1,10 @@
 import feedparser
 from flask import Flask, render_template
 import pdb
+from flask_bootstrap import Bootstrap
 
 app = Flask(__name__)
+bootstrap = Bootstrap(app)
 
 NYT_FEEDS = {
     'space': 'http://rss.nytimes.com/services/xml/rss/nyt/Space.xml',

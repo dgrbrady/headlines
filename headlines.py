@@ -1,5 +1,5 @@
 import feedparser
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import pdb
 from flask_bootstrap import Bootstrap
 
@@ -12,12 +12,17 @@ NYT_FEEDS = {
     'travel': 'http://rss.nytimes.com/services/xml/rss/nyt/Travel.xml'
 }
 
-@app.route("/")
+"""@app.route("/")
 def get_home():
-    return render_template("home.html")
+    return render_template("home.html")"""
 
-@app.route("/<publication>")
-def get_news(publication):
+@app.route("/")
+def get_news():
+    query = request.args.get("publication")
+    if not query or query.lower() not in NYT_FEEDS:
+        publication = "space"
+    else:
+        publication = query.lower()
     feed = feedparser.parse(NYT_FEEDS[publication])
 
     return render_template("newsPage.html", headline=publication, articles=feed['entries'])

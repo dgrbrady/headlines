@@ -1,8 +1,14 @@
+{% extends "bootstrap/base.html" %}
 <html>
+    {% block title %}{{ headline }}{% endblock %}
+    {% block content %}
     <body>
-        <h1>{{ headline }}</h1>
-            <b>{{ title }}</b> </br>
-            <i>{{ published }}</i> </br>
-            <p>{{ summary }}</p> </br>
+        {% for article in articles %}
+            <b><a href="{{ article.link }}"></a>{{ article.title }}</b> </br>
+            <i>{{ article.published }}</i> </br>
+            <p>{{ article.summary }}</p> </br>
+            <hr />
+        {% endfor %}
     </body>
+    {% endblock %}
 </html>

@@ -32,6 +32,7 @@
                             <option value="{{ currency }}" {{ 'selected="selected"' if currency_to==currency }}>{{ currency }}</option>
                         {% endfor %}
                     </select>
+            <input type="submit" value="submit">
         </form>
         <p>1 {{ currency_from }} = {{ rate }} {{ currency_to }}</p>
 

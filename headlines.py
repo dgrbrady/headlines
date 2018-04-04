@@ -15,30 +15,41 @@ NYT_FEEDS = {
     'travel': 'http://rss.nytimes.com/services/xml/rss/nyt/Travel.xml'
 }
 
-"""@app.route("/")
-def get_home():
-    return render_template("home.html")"""
+DEFAULTS = {
+    'publication': 'space',
+    'city': 'London, UK'
+}
 
 @app.route("/")
-def get_news():
-    query = request.args.get("publication")
+def home():
+    # Get customized headlines, based on user input or default
+    publication = request.args.get('publication')
+    if not publication:
+        publication = DEFAULTS['publication']
+    articles = get_news(publication)
+    # Get customized weather based on user input or default
+    city = request.args.get('city')
+    if not city:
+        city = DEFAULTS['city']
+    weather = get_weather(city)
+
+    return render_template("newsPage.html", articles=articles, weather=weather)
+
+def get_news(query):
     if not query or query.lower() not in NYT_FEEDS:
-        publication = "space"
+        publication = DEFAULTS["publication"]
     else:
         publication = query.lower()
     feed = feedparser.parse(NYT_FEEDS[publication])
-    weather = get_weather("London,UK")
-
-    return render_template("newsPage.html", headline=publication, articles=feed['entries'], weather=weather)
+    return feed['entries']
 
 def get_weather(query):
-    api_url = "http://api.openweathermap.org/data/2.5/weather?q={}&appid=be89569744a2e70fd838a538a7e69cb9"
+    WEATHER_URL = "http://api.openweathermap.org/data/2.5/weather?q={}&units=imperial&appid=be89569744a2e70fd838a538a7e69cb9"
     query = urllib.parse.quote(query)
-    url = api_url.format(query)
+    url = WEATHER_URL.format(query) #api_url.format(query)
     data = urlopen(url).read()
     parsed = json.loads(data)
     weather = None
-
     if parsed.get("weather"):
         weather = {
             'description': parsed["weather"][0]["description"],
@@ -46,5 +57,6 @@ def get_weather(query):
             'city': parsed["name"]
         }
         return weather
+
 if __name__ == '__main__':
     app.run(port=5000, debug=True)

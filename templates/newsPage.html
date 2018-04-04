@@ -19,6 +19,9 @@
         <p>City: <b>{{ weather.city }}, {{ weather.country }}</b></p>
         <p>{{ weather.description }} | {{ weather.temperature }}&#8457;</p>
 
+        <h2>Currency</h2>
+        <p>1 {{ currency_from }} = {{ currency_to }} {{ rate }}</p>
+
         <h2>Headlines</h2>
         {% for article in articles %}
             <b><a href="{{ article.link }}"></a>{{ article.title }}</b> </br>
